@@ -22,4 +22,6 @@ char *getCorpQuadra(listaQuadra lista);
 
 char *getSwQuadra(listaQuadra lista);
 
+void setCorbQuadra(listaQuadra lista, char *Cstroke);
+
 #endif

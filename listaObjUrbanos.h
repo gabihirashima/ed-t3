@@ -21,4 +21,6 @@ char *getCorbObjetos(listaObjetos Lista);
 
 char *getCorpObjetos(listaObjetos Lista);
 
+char getCharIdObjetos(listaObjetos Lista);
+
 #endif

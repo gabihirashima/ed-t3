@@ -15,7 +15,7 @@ typedef struct objetoUrbano{
     double y; /*ponto y*/
     char corb[20]; /*cor da borda*/
     char corp[20]; /*cor da preenchimento*/
-    char sw[10]; /*espessura*/
+    char sw[20]; /*espessura*/
     char char_id; /*identificador de tipo*/
 }objetosUrbanos;
 
@@ -83,4 +83,9 @@ char *getCorbObjetos(listaObjetos Lista){
 char *getCorpObjetos(listaObjetos Lista){
    objetosUrbanos *o = (objetosUrbanos*)Lista;
   return o->corp;
+}
+
+char getCharIdObjetos(listaObjetos Lista){
+  objetosUrbanos *o = (objetosUrbanos*)Lista;
+  return o->char_id;
 }

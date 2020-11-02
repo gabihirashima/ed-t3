@@ -1,6 +1,8 @@
 #ifndef LISTACIDADES_H_
 #define LISTACIDADES_H_
 
+#include "lista.h"
+
 typedef void *listaCidade;
 
 listaCidade iniciaListaCidade();
@@ -11,6 +13,10 @@ listaStruct getListaObjetos(listaCidade lista);
 
 listaStruct getListaQuadras(listaCidade lista);
 
-void liberaListasCidade(listaCidade lista);
+Node comparaIdObjetos(listaCidade lista, char *id);
+
+Node comparaCepQuadra(listaCidade lista, char *id);
+
+Node comparaIdFormas(listaCidade lista, int id);
 
 #endif

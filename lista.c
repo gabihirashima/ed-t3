@@ -112,46 +112,35 @@ listaStruct insertAfter(listaStruct lista, tipo elemento, tipo elemento_2){
     return NULL;
 }
 
-listaStruct removeElemento(listaStruct lista, tipo elemento){
-    Lista *list = (listaStruct)lista;
-         
-         No *inicio = list->primeiro;
-         No *aux_1; 
-         No *aux_2;
-         No *aux_3;
+listaStruct removeElemento(listaStruct l, tipo elemento){
+   Lista* lista = (Lista*) l;
+    No *aux, *aux2;
+    aux = lista->primeiro;
+    
+    while (aux!=NULL){
+        if(aux->elemento == elemento){
+            if (aux==lista->primeiro){
+                lista->primeiro = aux->prox;
+                lista->primeiro->ant = NULL;
+            }
+            if(aux==lista->ultimo){
+                lista->ultimo = aux->ant;
+                lista->ultimo->prox = NULL;
+            }
 
-            while(inicio != NULL){
-            if(inicio == elemento){
-               if(inicio == list->primeiro){
-                    aux_1 = inicio;
-                    aux_2 = inicio->prox;
-                    aux_2->ant = NULL;
-                    list->primeiro = aux_2;
-                    free(aux_1->elemento);
-                    free(aux_1);
-                    }
-                else if(inicio == list->ultimo){
-                    aux_1 = inicio;
-                    aux_2 = inicio->ant;
-                    aux_2->prox = NULL;
-                    list->ultimo = aux_2;
-                    free(aux_1->elemento);
-                    free(aux_1);
-                    }
-                else{
-                    aux_1 = inicio;
-                    aux_2 = inicio->prox;
-                    aux_3 = inicio->ant;
-                    aux_2->ant = aux_3;
-                    aux_3->prox = aux_2;
-                    free(aux_1->elemento);
-                    free(aux_1);
-                    }
-                return list;     
-            }    
-            inicio = inicio->prox;
-        }
-    return NULL;
+            aux2 = aux->prox;
+            aux2->ant = aux->ant;
+
+            if(aux->ant!=NULL){
+                aux->ant->prox = aux2;
+            }
+            
+            free(aux->elemento);
+            free(aux);
+            break;
+         }
+        aux = aux->prox;
+    }  
 }
 
 void liberaLista(listaStruct lista){
@@ -224,13 +213,13 @@ void imprimeLista(listaStruct l, char c){
                 printf("%s, %lf, %lf, %s, %s\n", getIdObjetos(getElemento(node)), getXObjetos(getElemento(node)), getYObjetos(getElemento(node)), getCorpObjetos(getElemento(node)), getCorbObjetos(getElemento(node)));
             }
             else if(c == 'h'){
-                printf("%s, %lf, %lf, %s, %s\n", getIdObjetos(getElemento(node)), getXObjetos(getElemento(node)), getYObjetos(getElemento(node)), getCFillObjetos(getElemento(node)), getCStrokeObjetos(getElemento(node)));
+                printf("%s, %lf, %lf, %s, %s\n", getIdObjetos(getElemento(node)), getXObjetos(getElemento(node)), getYObjetos(getElemento(node)), getCorpObjetos(getElemento(node)), getCorbObjetos(getElemento(node)));
             }
             else if(c == 'q'){
                 printf("%s, %lf, %lf, %lf, %lf,%s, %s\n", getCepQuadra(getElemento(node)), getXQuadra(getElemento(node)), getYQuadra(getElemento(node)),  getWQuadra(getElemento(node)),  getHQuadra(getElemento(node)), getCorpQuadra(getElemento(node)), getCorbQuadra(getElemento(node)));
             }
             else if(c == 's'){
-                printf("%s, %lf, %lf, %s, %s\n", getIdObjetos(getElemento(node)), getXObjetos(getElemento(node)), getYObjetos(getElemento(node)), getCorpObjetos(getElemento(node)), getCStroke(getElemento(node)));
+                printf("%s, %lf, %lf, %s, %s\n", getIdObjetos(getElemento(node)), getXObjetos(getElemento(node)), getYObjetos(getElemento(node)), getCorpObjetos(getElemento(node)), getCorbObjetos(getElemento(node)));
             }
             else if(c == 'c'){
                 printf("%d, %lf, %lf, %lf, %s, %s\n", getIdFormas(getElemento(node)), getRFormas(getElemento(node)), getXFormas(getElemento(node)), getYFormas(getElemento(node)), getCorbFormas(getElemento(node)), getCorpFormas(getElemento(node)));

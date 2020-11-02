@@ -7,6 +7,8 @@ listaForma criaCirculo(int id, double r, double x, double y, char *corb, char *c
 
 listaForma criaRetangulo(int id, double w, double h, double x, double y, double rx, double ry, char *corb, char *corp, char *rw);
 
+listaForma criaRetanguloPontilhado(int id, double w, double h, double x, double y, double rx, double ry, char *corb, char *corp, char *rw);
+
 listaForma criaLinha(int id, double x, double y, double x2, double y2, char *cor);
 
 listaForma criaTexto(int id, double x, double y, char *corb, char *corp, char *texto);
@@ -31,4 +33,17 @@ char *getCWFormas(listaForma lista);
 
 char *getTextFormas(listaForma lista);
 
+char getCharIdFormas(listaForma lista);
+
+void setCorpForma(listaForma lista, char *Cfill);
+
+void setCorbForma(listaForma lista, char *Cstroke);
+
+double getRxFormas(listaForma lista);
+
+double getRyFormas(listaForma lista);
+
+double getX2Formas(listaForma lista);
+
+double getY2Formas(listaForma lista);
 #endif

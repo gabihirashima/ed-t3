@@ -7,6 +7,7 @@
 /* CHAR DE IDENTIFICAÇÃO
     c = circulo;
     r = retangulo;
+    x = retangulo pontilhado;
     l = linha;
     t = texto;
 */
@@ -25,7 +26,7 @@ typedef struct formas{
     char corb[20]; /*cor da borda*/
     char corp[20]; /*cor do preenchimento*/
     char texto[50]; /*texto*/
-    char cw[10]; /*espessura*/
+    char cw[20]; /*espessura*/
     char char_id; /*char de identificacao*/
 }Formas;
 
@@ -55,6 +56,22 @@ listaForma criaRetangulo(int id, double w, double h, double x, double y, double 
     strcpy(r->corp, corp);
     strcpy(r->cw, rw);
     r->char_id = 'r';
+    return r;
+}
+
+listaForma criaRetanguloPontilhado(int id, double w, double h, double x, double y, double rx, double ry, char *corb, char *corp, char *rw){
+    Formas *r =(Formas*)malloc(sizeof(Formas));
+    r->id = id;
+    r->w = w;
+    r->h = h;
+    r->x = x;
+    r->y = y;
+    r->rx = rx;
+    r->ry = ry;
+    strcpy(r->corb, corb);
+    strcpy(r->corp, corp);
+    strcpy(r->cw, rw);
+    r->char_id = 'x';
     return r;
 }
 
@@ -131,4 +148,39 @@ char *getCWFormas(listaForma lista){
 char *getTextFormas(listaForma lista){
     Formas *f = (Formas*)lista;
     return f->texto;
+}
+
+char getCharIdFormas(listaForma lista){
+    Formas *f = (Formas*)lista;
+    return f->char_id;
+}
+
+void setCorpForma(listaForma lista, char *Cfill){
+    Formas *f = (Formas*)lista;
+    strcpy(f->corp, Cfill);
+}
+
+void setCorbForma(listaForma lista, char *Cstroke){
+    Formas *f = (Formas*)lista;
+    strcpy(f->corb, Cstroke);
+}
+
+double getRxFormas(listaForma lista){
+    Formas *f = (Formas*)lista;
+    return f->rx;
+}
+
+double getRyFormas(listaForma lista){
+    Formas *f = (Formas*)lista;
+    return f->ry;
+}
+
+double getX2Formas(listaForma lista){
+    Formas *f = (Formas*)lista;
+    return f->x2;
+}
+
+double getY2Formas(listaForma lista){
+    Formas *f = (Formas*)lista;
+    return f->y2;
 }

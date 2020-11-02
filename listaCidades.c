@@ -3,6 +3,9 @@
 #include <string.h>
 #include "lista.h"
 #include "listaCidades.h"
+#include "listaObjUrbanos.h"
+#include "listaQuadras.h"
+#include "listaFormas.h"
 
 typedef struct cidade{
     listaStruct listaF;
@@ -12,7 +15,7 @@ typedef struct cidade{
 
 listaCidade iniciaListaCidade(){
     Cidade *lista;
-    lista = (Cidade*)malloc(sizeof(Cidade*));
+    lista = (Cidade*)malloc(sizeof(Cidade));
 
     lista->listaF = criaLista();
     lista->listaQ = criaLista();
@@ -36,15 +39,44 @@ listaStruct getListaQuadras(listaCidade lista){
     return list->listaQ;
 }
 
-void liberaListasCidade(listaCidade lista){
-    Cidade* list = (Cidade*) lista;
-    
-    liberaLista(list->listaF);
-    liberaLista(list->listaO);
-    liberaLista(list->listaQ);
+Node comparaIdObjetos(listaCidade lista, char *id){
+    listaStruct list = getListaObjetos(lista);
+    Node no = getFirst(list);
+    tipo elemento;
+         do{
+            elemento = getElemento(no);
+                if(strcmp(getIdObjetos(elemento), id) == 0){
+                    return elemento;
+            }
+            no = getNext(no);
+        }while(no != NULL);
+    return NULL;
+}
 
-    free(list->listaF);
-    free(list->listaO);
-    free(list->listaQ);
-    free(list);
+Node comparaCepQuadra(listaCidade lista, char *id){
+    listaStruct list = getListaQuadras(lista);
+    Node no = getFirst(list);
+    tipo elemento;
+         do{
+            elemento = getElemento(no);
+                if(strcmp(getCepQuadra(elemento), id) == 0){
+                    return elemento;
+            }
+            no = getNext(no);
+        }while(no != NULL);
+    return NULL;
+}
+
+Node comparaIdFormas(listaCidade lista, int id){
+    listaStruct list = getListaFormas(lista);
+    Node no = getFirst(list);
+    tipo elemento;
+         do{
+            elemento = getElemento(no);
+                if(getIdFormas(elemento)== id){
+                    return elemento;
+            }
+            no = getNext(no);
+        }while(no != NULL);
+    return NULL;
 }

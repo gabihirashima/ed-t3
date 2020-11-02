@@ -6,8 +6,10 @@
 #include "listaFormas.h"
 #include "listaObjUrbanos.h"
 #include "listaQuadras.h"
+#include "criaSvg.h"
+#include "opqry.h"
 
-void openGeo(listaCidade listacidade, char *nomeGeo){
+void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg){
     char comando[4];
     char cfillQ[20];
     char cstrkQ[20];
@@ -41,7 +43,6 @@ void openGeo(listaCidade listacidade, char *nomeGeo){
     char sw[8];
     char cw[8];
     char rw[8];
-    char char_id; 
 
     tipo elemento;
 
@@ -63,49 +64,49 @@ void openGeo(listaCidade listacidade, char *nomeGeo){
                 else if((strcmp(comando, "c") == 0) && cont_i < i){
                     fscanf(arq, "%d %lf %lf %lf %s %s", &id_forma, &r, &x, &y, corb, corp);
                     elemento = criaCirculo(id_forma, r, x, y, corb, corp, cw);
-                    insereElemento(getListaFormas(listacidade), elemento);
+                    insertElemento(getListaFormas(listacidade), elemento);
                     cont_i += 1;
                 }
 
                 else if((strcmp(comando, "r") == 0) && cont_i < i){
                     fscanf(arq, "%d %lf %lf %lf %lf %s %s", &id_forma, &w, &h, &x, &y, corb, corp); 
                     elemento = criaRetangulo(id_forma, w, h, x, y, 0, 0, corb, corp, rw);
-                    insereElemento(getListaFormas(listacidade), elemento);
+                    insertElemento(getListaFormas(listacidade), elemento);
                     cont_i += 1;
                 }
 
                 else if(strcmp(comando, "t") == 0){
                     fscanf(arq, "%d %lf %lf %s %s %s", &id_forma, &x, &y, corb, corp, text); 
                     elemento = criaTexto(id_forma, x, y, corb, corp, text);
-                    insereElemento(getListaFormas(listacidade), elemento);
+                    insertElemento(getListaFormas(listacidade), elemento);
                 }
 
                 else if((strcmp(comando, "q") == 0) && cont_nq < nq){
                     fscanf(arq, "%s %lf %lf %lf %lf", cep, &x, &y ,&w ,&h);
                     elemento = criaQuadra(cep, x, y, w, h, cfillQ, cstrkQ, sw);
-                    printf("%s %lf %lf %lf %lf\n", getQuadraCep(elemento), getQuadraX(elemento), getQuadraY(elemento) ,getQuadraW(elemento) ,getQuadraH(elemento));
-                    insereElemento(getListaQuadras(listacidade), elemento);
+                    printf("%s %lf %lf %lf %lf\n", getCepQuadra(elemento), getXQuadra(elemento), getYQuadra(elemento) ,getWQuadra(elemento) ,getHQuadra(elemento));
+                    insertElemento(getListaQuadras(listacidade), elemento);
                     cont_nq += 1;
                 }
 
                 else if((strcmp(comando, "h") == 0) && cont_nh < nh){
                     fscanf(arq, "%s %lf %lf", id, &x, &y);
                     elemento = criaHidrante(id, x, y, cfillH, cstrkH, sw);
-                    insereElemento(getListaObjetos(listacidade), elemento);
+                    insertElemento(getListaObjetos(listacidade), elemento);
                     cont_nh += 1;
                 }
 
                 else if((strcmp(comando, "s") == 0) && cont_ns < ns){
                     fscanf(arq, "%s %lf %lf", id, &x, &y);
                     elemento = criaSemaforo(id, x, y, cfillS, cstrkS, sw);
-                    insereElemento(getListaObjetos(listacidade), elemento);
+                    insertElemento(getListaObjetos(listacidade), elemento);
                     cont_ns += 1;
                 }
 
                 else if((strcmp(comando, "rb") == 0) && cont_nr < nr){
                     fscanf(arq, "%s %lf %lf", id, &x, &y);
                     elemento = criaRadio(id, x, y, cfillR, cstrkR, sw);
-                    insereElemento(getListaObjetos(listacidade), elemento);
+                    insertElemento(getListaObjetos(listacidade), elemento);
                     cont_nr += 1;
                 }
 
@@ -131,11 +132,12 @@ void openGeo(listaCidade listacidade, char *nomeGeo){
             }
 
    fclose(arq);
+   svgen(listacidade, saidaSvg);
 }
 
-void openQry(Cidade listacidade, char *entradaQry, char *saidaQry){
+void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
 
-    FILE *entrada, *saidaSvg, *saidaTxt;
+  FILE *entrada, *saidaTxt;
 
     char comando[6];
     char teste[20];
@@ -147,6 +149,8 @@ void openQry(Cidade listacidade, char *entradaQry, char *saidaQry){
     double y;
     double w;
     double h;
+    int j;
+    int k;
 
     char *saidaSvgQry = malloc(strlen(saidaQry)+5);
     char *saidaTxtQry = malloc(strlen(saidaQry)+5);
@@ -156,7 +160,6 @@ void openQry(Cidade listacidade, char *entradaQry, char *saidaQry){
 
     entrada = fopen(entradaQry, "r");
     saidaTxt = fopen(saidaTxtQry, "w+");
-    saidaSvg = fopen(saidaSvgQry, "w+");
 
     if(entrada == NULL){
             printf("Erro ao abrir o arquivo entrada!!");
@@ -170,53 +173,94 @@ void openQry(Cidade listacidade, char *entradaQry, char *saidaQry){
             exit(1);
     }
 
-    if(saidaSvg == NULL){
-            printf("Erro ao abrir o arquivo saidaSvgQry!!");
-            system("pause");
-            exit(1);
-    }
-
-        while(fscanf(entrada, "%s", comando)!=EOF){
+     while(fscanf(entrada, "%s", comando)!=EOF){
 
             if(strcmp(comando, "dq") == 0){
                 fscanf(entrada, "%s", teste);
 
                     if(strcmp(teste, "#") == 0){
                         fscanf(entrada, "%s %lf", id, &r);
-                            delQuadras(listacidade, saidaTxt, saidaSvg, 1, id, r);
+                        delQuadras(listacidade, saidaTxt, 1, id, r);
                     }
                     else{
                         strcpy(id, teste);
                         fscanf(entrada, "%lf", &r);
-                            delQuadras(listacidade, saidaTxt, saidaSvg, 0, id, r);
+                        delQuadras(listacidade, saidaTxt, 0, id, r);
                     }
             }
 
             else if(strcmp(comando, "del") == 0){
                 fscanf(entrada, "%s", id);
-                   delUrb(listacidade, saidaSvg, saidaTxt, id);
+                delUrb(listacidade, saidaTxt, id);
             }
 
             else if(strcmp(comando, "cbq") == 0){
                 fscanf(entrada, "%lf %lf %lf %s", &x, &y, &r, cStrk);
-                    colorBorder(listacidade, saidaTxt, x, y, r, cStrk);
+                colorBorder(listacidade, saidaTxt, x, y, r, cStrk);
             }
 
             else if(strcmp(comando, "crd?") == 0){
                 fscanf(entrada, "%s", id);
-                    coord(listacidade, saidaTxt, id);
+                coord(listacidade, saidaTxt, id);
             }
 
             else if(strcmp(comando, "car") == 0){
                 fscanf(entrada, "%lf %lf %lf %lf", &x, &y, &w, &h); 
-                    rectArea(listacidade, saidaSvg, saidaTxt, x, y, w, h);
+                rectArea(listacidade, saidaTxt, x, y, w, h);
             }
-        
+
+            else if(strcmp(comando, "o?") == 0){
+                fscanf(entrada, "%d %d", &j, &k);
+                sobreposicao(j, k, listacidade, saidaTxt);
+            }
+
+            else if(strcmp(comando, "i?") == 0){
+                fscanf(entrada, "%d %lf %lf", &j, &x, &y);
+                pontoInterno(j, x, y, listacidade, saidaTxt);
+            }
+
+            else if(strcmp(comando, "pnt") == 0){
+                fscanf(entrada, "%d %s %s", &j, cStrk, cFill);
+                pnt(j, cStrk, cFill, listacidade, saidaTxt);
+            }
+
+            else if(strcmp(comando, "pnt*") == 0){
+                fscanf(entrada, "%d %d %s %s", &j, &k, cStrk, cFill);
+                if  (j < k){
+                    for(int i = j; i < k; i++){
+                        pnt(i, cStrk, cFill, listacidade, saidaTxt);
+                    }
+                }
+                else{
+                    for(int i = k; i < j; i++){
+                        pnt(i, cStrk, cFill, listacidade, saidaTxt);
+                    }
+                }
+            }
+
+            else if(strcmp(comando, "delf") == 0){
+                fscanf(entrada, "%d", &j);
+                delf(j, listacidade, saidaTxt);
+            }
+
+            else if(strcmp(comando, "delf*") == 0){
+                fscanf(entrada, "%d", &j, &k);
+                if  (j < k){
+                    for(int i = j; i < k; i++){
+                      delf(i, listacidade, saidaTxt);
+                    }
+                }
+                else{
+                    for(int i = k; i < j; i++){
+                      delf(i, listacidade, saidaTxt);
+                    }
+                }
+            }
         }
         
-
-    fclose(saidaSvg);
     fclose(saidaTxt);
     fclose(entrada);
+    svgen(listacidade, saidaSvgQry);
+    free(saidaSvgQry);
+    free(saidaTxtQry);
 }
-

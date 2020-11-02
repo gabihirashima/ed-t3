@@ -9,7 +9,7 @@ typedef struct quadra{
     double y; /*ponto y*/
     double w; /*ponto w*/
     double h; /*ponto h*/
-    char sw[10]; /*espessura*/
+    char sw[20]; /*espessura*/
     char corb[20]; /*cor borda*/
     char corp[20]; /*cor preenchimento*/
     char char_id; /*identificador de tipo*/
@@ -67,5 +67,10 @@ char *getCorpQuadra(listaQuadra lista){
 char *getSwQuadra(listaQuadra lista){
     Quadra *q = (Quadra*)lista;
     return q->sw;
+}
+
+void setCorbQuadra(listaQuadra lista, char *Cstroke){
+    Quadra *q = (Quadra*)lista;
+    strcpy(q->corb, Cstroke);
 }
 

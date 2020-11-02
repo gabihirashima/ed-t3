@@ -14,8 +14,12 @@ void desenhaTexto(FILE *saida, double x, double y, char *corb, char *corp, char 
 
 void desenhaRetangulo(FILE *saida, double x, double y, double w, double h, double rx, double ry, char *corp, char *corb, char *rw);
 
+void desenhaRetanguloPontilhado(FILE *saida, double x, double y, double w, double h, double rx, double ry, char *corp, char *corb, char *rw);
+
 void desenhaLinha(FILE *saida, double x1, double x2, double y1, double y2, char *corb);
 
 void desenhaCirculo(FILE *saida, double x, double y, double r, char *corp, char *corb, char *cw);
+
+void svgen(listaCidade listacidade,char *out);
 
 #endif
