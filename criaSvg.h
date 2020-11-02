@@ -1,6 +1,8 @@
 #ifndef CRIASVG_H_
 #define CRIASVG_H_
+
 #include <stdio.h>
+#include "listaCidades.h"
 
 void desenhaSemaforo(FILE *saida, double x, double y, char *cfill, char *cstrk, char *sw);
 

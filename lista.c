@@ -140,7 +140,8 @@ listaStruct removeElemento(listaStruct l, tipo elemento){
             break;
          }
         aux = aux->prox;
-    }  
+    }
+    return lista;  
 }
 
 void liberaLista(listaStruct lista){

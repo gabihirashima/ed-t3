@@ -72,11 +72,11 @@ void tratamentoString(char *diretorio, char *arquivoGeo, char *arquivoQry, char 
                     saidaQry =  (char*)malloc( ( (strlen(pastaSaida)+strlen(nomeArquivoGeo)+strlen(nomeArquivoQry) )+4 )* sizeof(char) );
                     sprintf(saidaQry, "%s/%s-%s", pastaSaida, nomeArquivoGeo, nomeArquivoQry);
                     printf("\n\nsaida Qry: %s", saidaQry);
-                    openQry(Cidade, caminhoQry, saidaQry);
 
                 free(saidaQry);
                 free(nomeArquivoQry);
             }
+
 
     free(saidaSvg);
     free(caminhoQry);

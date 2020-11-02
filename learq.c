@@ -44,6 +44,10 @@ void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg){
     char cw[8];
     char rw[8];
 
+        strcpy(sw, "1.0px");
+        strcpy(cw, "1.0px");
+        strcpy(rw, "1.0px");
+        
     tipo elemento;
 
     FILE *arq;
@@ -244,7 +248,7 @@ void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
             }
 
             else if(strcmp(comando, "delf*") == 0){
-                fscanf(entrada, "%d", &j, &k);
+                fscanf(entrada, "%d %d", &j, &k);
                 if  (j < k){
                     for(int i = j; i < k; i++){
                       delf(i, listacidade, saidaTxt);

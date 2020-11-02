@@ -131,7 +131,6 @@ int sobrepoeRetanguloRetangulo(listaCidade listacidade, Node retangulo1, Node re
 }
 
 void sobreposicao(int i, int k, listaCidade lista, FILE *txt){
-    Node listaF = getListaFormas(lista);
     Node forma1, forma2; 
     int teste; 
 
@@ -244,7 +243,6 @@ void pontoInterno(int j, double x, double y, listaCidade lista, FILE *saida){
 
 void pnt(int j, char *novoCorb, char *novoCorp, listaCidade lista, FILE *saida){
 
-    Node listaF = getListaFormas(lista);
     Node forma1;
     
     forma1 = comparaIdFormas(lista, j);
@@ -280,6 +278,7 @@ listaStruct *delf(int j, listaCidade lista, FILE *saida){
         }
         removeElemento(listaF, forma1);
     }
+    return listaF;
 }
 
 double dist(double x1, double y1, double x2, double y2){
@@ -287,13 +286,13 @@ double dist(double x1, double y1, double x2, double y2){
 }
 
 void delQuadras(listaCidade listacidade, FILE *txt, int htag, char *id, double r){
-    char type = id[0], cfill[20], cstrk[20], sw[10];
+    char cfill[20], cstrk[20], sw[10];
     Node ListQ = getListaQuadras(listacidade);
     Node eq,Q;
     tipo q, elemento, cq, a1, a2;
     double x, y, qx, qy, w, h;
     
-    eq = comparaObjetos(listacidade,id);
+    eq = comparaIdObjetos(listacidade,id);
             x = getXObjetos(eq);
             y = getYObjetos(eq);
             strcpy(cfill, getCorpObjetos(eq));
@@ -333,8 +332,7 @@ void delQuadras(listaCidade listacidade, FILE *txt, int htag, char *id, double r
 void delUrb(listaCidade listacidade, FILE *txt, char *cid){
     char type = cid[0], cfill[20], cstrk[20], sw[10];
     double x, y, w, h;
-    Node listQ = getListaQuadras(listacidade), listS = getListaSemaforos(listacidade);
-    Node listR = getListaRadios(listacidade), listH = getListaHidrantes(listacidade);
+    Node listQ = getListaQuadras(listacidade);
     Node listO = getListaObjetos(listacidade);
     Node urb;
     tipo dell,itxt;
@@ -348,9 +346,9 @@ void delUrb(listaCidade listacidade, FILE *txt, char *cid){
             removeElemento(listO,urb);
             fprintf(txt, "\nId: %s  X: %lf  Y: %lf  Cfill: %s  CStrk: %s  Sw: %s",cid,x,y,cfill,cstrk, sw);
             dell = criaLinha(-1,x,y,x,0,"black");
-            insereElemento(getListaLinhas(listacidade),dell);
+            insertElemento(getListaFormas(listacidade),dell);
             itxt = criaTexto(-1,x+2,0,"black","black",cid);
-            insereElemento(getListaTexto(listacidade),itxt);
+            insertElemento(getListaFormas(listacidade),itxt);
         }
         else{
             urb = comparaCepQuadra(listacidade,cid);
@@ -364,9 +362,9 @@ void delUrb(listaCidade listacidade, FILE *txt, char *cid){
             removeElemento(listQ,urb);
             fprintf(txt, "\nCep: %s  X: %lf  Y: %lf  W: %lf  H: %lf  Cfill: %s  CStrk:%s  Sw:%s",cid,x,y,w,h,cfill,cstrk, sw);
             dell = criaLinha(-1,x+w/2,y+h/2,x+w/2,0,"black");
-            insereElemento(getListaFormas(listacidade),dell);
+            insertElemento(getListaFormas(listacidade),dell);
             itxt = criaTexto(-1,x+w/2+2,0,"black","black",cid);
-            insereElemento(getListaFormas(listacidade),itxt);
+            insertElemento(getListaFormas(listacidade),itxt);
         }
       
 }
@@ -400,16 +398,16 @@ void coord(listaCidade listacidade, FILE *txt, char *cid){
 
     switch(type){
         case 'r':
-            urb = comparaIdObjeto(listacidade,cid);
-            fprintf(txt,"\nId: %s  X: %lf  Y: %lf  Rádio-base",getIdObjeto(urb),getXObjeto(urb),getYObjeto(urb));
+            urb = comparaIdObjetos(listacidade,cid);
+            fprintf(txt,"\nId: %s  X: %lf  Y: %lf  Rádio-base",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         case 's':
-            urb = comparaIdObjeto(listacidade,cid);
-            fprintf(txt,"\nId: %s  X: %lf Y: %lf  Semáforo",getIdObjeto(urb),getXObjeto(urb),getYObjeto(urb));
+            urb = comparaIdObjetos(listacidade,cid);
+            fprintf(txt,"\nId: %s  X: %lf Y: %lf  Semáforo",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         case 'h':
-            urb = comparaIdObjeto(listacidade,cid);
-            fprintf(txt,"\nId: %s  X: %lf Y: %lf Hidrante",getIdObjeto(urb),getXObjeto(urb),getYObjeto(urb));
+            urb = comparaIdObjetos(listacidade,cid);
+            fprintf(txt,"\nId: %s  X: %lf Y: %lf Hidrante",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         default:
             urb = comparaCepQuadra(listacidade,cid);
