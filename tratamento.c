@@ -30,7 +30,7 @@ void tratamentoString(char *diretorio, char *arquivoGeo, char *arquivoQry, char 
     nomeArquivoGeo = (char*)malloc( ( ( strlen(arquivoGeo) )+1 )*sizeof(char) );
             strcpy(nomeArquivoGeo, arquivoGeo);
             nomeArquivoGeo = strtok(nomeArquivoGeo, "."); /*vai retornar somente o nome anterior ao .geo*/ 
-            printf("\n\nnome geo formatado: %s", nomeArquivoGeo);
+            /*printf("\n\nnome geo formatado: %s", nomeArquivoGeo);*/
 
             if (diretorio != NULL){/*Se foi passado um argumento de diretório*/
                 caminhoGeo = (char*)malloc( ( ( strlen(diretorio) + strlen(arquivoGeo) )+3 )* sizeof(char) );
@@ -45,18 +45,18 @@ void tratamentoString(char *diretorio, char *arquivoGeo, char *arquivoQry, char 
             else{/*Não foram passados argumentos para o diretório*/
                 caminhoGeo =  (char*)malloc( ( (strlen(arquivoGeo) )+1 )* sizeof(char) );
                 strcpy(caminhoGeo, arquivoGeo);
-                printf("\n\ncaminho Geo sem argumento de diretorio: %s", caminhoGeo);
+                /*printf("\n\ncaminho Geo sem argumento de diretorio: %s", caminhoGeo);*/
                     if(arquivoQry != NULL){/*se foi passado um arquivo de qry*/
                         caminhoQry = (char*)malloc( ( (strlen(arquivoQry) )+1 )* sizeof(char) );
                         strcpy(caminhoQry, arquivoQry);
-                        printf("\n\ncaminho Qry sem argumento de diretorio: %s", caminhoQry);
+                       /* printf("\n\ncaminho Qry sem argumento de diretorio: %s", caminhoQry);*/
                     }
 
             }
 
                 saidaSvg =  (char*)malloc( ( (strlen(pastaSaida)+strlen(nomeArquivoGeo) )+8 )* sizeof(char) );
                 sprintf(saidaSvg, "%s/%s.svg", pastaSaida, nomeArquivoGeo);
-                printf("\n\nsaida Svg: %s", saidaSvg);
+                /*printf("\n\nsaida Svg: %s", saidaSvg);*/
 
                 openGeo(Cidade, caminhoGeo, saidaSvg);
 
@@ -67,11 +67,11 @@ void tratamentoString(char *diretorio, char *arquivoGeo, char *arquivoQry, char 
 
                     nomeArquivoQry = strcpy(nomeArquivoQry, retornaString(arquivoQry));
          
-                    printf("\n\nnome Qry formatado: %s", nomeArquivoQry);
+                    /*printf("\n\nnome Qry formatado: %s", nomeArquivoQry);*/
 
                     saidaQry =  (char*)malloc( ( (strlen(pastaSaida)+strlen(nomeArquivoGeo)+strlen(nomeArquivoQry) )+4 )* sizeof(char) );
                     sprintf(saidaQry, "%s/%s-%s", pastaSaida, nomeArquivoGeo, nomeArquivoQry);
-                    printf("\n\nsaida Qry: %s", saidaQry);
+                    /*printf("\n\nsaida Qry: %s", saidaQry);*/
                     openQry(Cidade, caminhoQry, saidaQry);
                 free(saidaQry);
                 free(nomeArquivoQry);

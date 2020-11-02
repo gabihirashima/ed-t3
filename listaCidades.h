@@ -13,6 +13,10 @@ listaStruct getListaObjetos(listaCidade lista);
 
 listaStruct getListaQuadras(listaCidade lista);
 
+listaStruct getListaRegioes(listaCidade lista);
+
+listaStruct getListaPostos(listaCidade lista);
+
 Node comparaIdObjetos(listaCidade lista, char *id);
 
 Node comparaCepQuadra(listaCidade lista, char *id);

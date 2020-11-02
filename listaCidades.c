@@ -6,11 +6,15 @@
 #include "listaObjUrbanos.h"
 #include "listaQuadras.h"
 #include "listaFormas.h"
+#include "listaPostos.h"
+#include "listaRegioes.h"
 
 typedef struct cidade{
     listaStruct listaF;
     listaStruct listaO;
     listaStruct listaQ;
+    listaStruct listaR;
+    listaStruct listaP;
 }Cidade;
 
 listaCidade iniciaListaCidade(){
@@ -20,6 +24,8 @@ listaCidade iniciaListaCidade(){
     lista->listaF = criaLista();
     lista->listaQ = criaLista();
     lista->listaO = criaLista();
+    lista->listaR = criaLista();
+    lista->listaP = criaLista();
 
     return lista; 
 }
@@ -32,6 +38,16 @@ listaStruct getListaFormas(listaCidade lista){
 listaStruct getListaObjetos(listaCidade lista){
     Cidade* list = (Cidade*)lista;
     return list->listaO;
+}
+
+listaStruct getListaRegioes(listaCidade lista){
+    Cidade* list = (Cidade*)lista;
+    return list->listaR;
+}
+
+listaStruct getListaPostos(listaCidade lista){
+    Cidade* list = (Cidade*)lista;
+    return list->listaP;
 }
 
 listaStruct getListaQuadras(listaCidade lista){

@@ -6,6 +6,8 @@
 #include "listaFormas.h"
 #include "listaObjUrbanos.h"
 #include "listaQuadras.h"
+#include "listaRegioes.h"
+#include "listaPostos.h"
 #include "criaSvg.h"
 #include "opqry.h"
 
@@ -40,9 +42,13 @@ void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg){
     double y;
     double w;
     double h;
+    double d;
     char sw[8];
     char cw[8];
     char rw[8];
+    int totalP = 0;
+    int totalR = 0;
+
 
         strcpy(sw, "1.0px");
         strcpy(cw, "1.0px");
@@ -114,6 +120,20 @@ void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg){
                     cont_nr += 1;
                 }
 
+                else if((strcmp(comando, "ps") == 0)){
+                    fscanf(arq, "%lf %lf", &x, &y);
+                    totalP = totalP + 1;
+                    elemento = criaPosto(totalP, x, y);
+                    insertElemento(getListaPostos(listacidade), elemento); 
+                }
+
+                else if((strcmp(comando, "d") == 0)){
+                    fscanf(arq, "%lf, %lf, %lf, %lf, %lf", &x, &y, &w, &h, &d);
+                    totalR = totalR + 1;
+                    elemento = criaRegiao(totalR, x, y, w, h, d);
+                    insertElemento(getListaRegioes(listacidade), elemento);
+                }
+
                 else if(strcmp(comando, "ch") == 0){
                     fscanf(arq, "%s %s %s", sw, cfillH, cstrkH);
                 }
@@ -155,6 +175,10 @@ void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
     double h;
     int j;
     int k;
+    char face;
+    int num;
+    int n_casos;
+    int n_postos;
 
     char *saidaSvgQry = malloc(strlen(saidaQry)+5);
     char *saidaTxtQry = malloc(strlen(saidaQry)+5);
@@ -259,6 +283,18 @@ void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
                       delf(i, listacidade, saidaTxt);
                     }
                 }
+            }
+
+            else if(strcmp(comando, "cv") == 0){
+                fscanf(entrada, "%d %s %c %d", &n_casos, id, &face, &num);
+            }
+
+            else if(strcmp(comando, "soc") == 0){
+                fscanf(entrada, "%d %s %c %d", &n_postos, id, &face, &num);
+            }
+
+            else if(strcmp(comando, "ci") == 0){
+                fscanf(entrada, "%lf %lf %lf", &x, &y, &r);
             }
         }
         

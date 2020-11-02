@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
             }
         }
 
-        printf("\n %s %s %s %s", diretorio, arquivoGeo, arquivoQry, pastaSaida);
+        /*printf("\n %s %s %s %s", diretorio, arquivoGeo, arquivoQry, pastaSaida);*/
 
         tratamentoString(diretorio, arquivoGeo, arquivoQry, pastaSaida);
 
