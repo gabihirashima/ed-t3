@@ -255,7 +255,7 @@ void pnt(int j, char *novoCorb, char *novoCorp, listaCidade lista, FILE *saida){
 
 }
 
-listaStruct *delf(int j, listaCidade lista, FILE *saida){
+void delf(int j, listaCidade lista, FILE *saida){
 
     Node listaF = getListaFormas(lista);
     Node forma1;
@@ -276,9 +276,8 @@ listaStruct *delf(int j, listaCidade lista, FILE *saida){
         else if(f1 == 't'){
             fprintf(saida, "%d: TEXTO x:%lf y:%lf corb:%s corp:%s texto:%s\n", getIdFormas(forma1), getXFormas(forma1), getYFormas(forma1), getCorbFormas(forma1), getCorpFormas(forma1), getTextFormas(forma1));     
         }
-        removeElemento(listaF, forma1);
+        removeElemento(listaF, getElemento(forma1));
     }
-    return listaF;
 }
 
 double dist(double x1, double y1, double x2, double y2){
@@ -420,7 +419,7 @@ void rectArea(listaCidade listacidade, FILE *txt, double x, double y, double w, 
     Node listQ = getListaQuadras(listacidade);
     Node Q;
     tipo q, a, at, rq, rql;
-    double qx, qy, qw, qh, A, AT=0;
+    double qx, qy, qw, qh, A = 0, AT = 0;
     char areatxt[30],atotaltxt[30];
 
     Q = getFirst(listQ);

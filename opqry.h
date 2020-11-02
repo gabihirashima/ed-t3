@@ -21,7 +21,7 @@ void pontoInterno(int j, double x, double y, listaCidade lista, FILE *saida);
 
 void pnt(int j, char *novoCorb, char *novoCorp, listaCidade lista, FILE *saida);
 
-listaStruct *delf(int j, listaCidade lista, FILE *saida);
+void delf(int j, listaCidade lista, FILE *saida);
 
 double dist(double x1, double y1, double x2, double y2);
 

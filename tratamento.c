@@ -58,7 +58,7 @@ void tratamentoString(char *diretorio, char *arquivoGeo, char *arquivoQry, char 
                 sprintf(saidaSvg, "%s/%s.svg", pastaSaida, nomeArquivoGeo);
                 printf("\n\nsaida Svg: %s", saidaSvg);
 
-                openGeo(Cidade, caminhoGeo);
+                openGeo(Cidade, caminhoGeo, saidaSvg);
 
                 
 
@@ -72,7 +72,7 @@ void tratamentoString(char *diretorio, char *arquivoGeo, char *arquivoQry, char 
                     saidaQry =  (char*)malloc( ( (strlen(pastaSaida)+strlen(nomeArquivoGeo)+strlen(nomeArquivoQry) )+4 )* sizeof(char) );
                     sprintf(saidaQry, "%s/%s-%s", pastaSaida, nomeArquivoGeo, nomeArquivoQry);
                     printf("\n\nsaida Qry: %s", saidaQry);
-
+                    openQry(Cidade, caminhoQry, saidaQry);
                 free(saidaQry);
                 free(nomeArquivoQry);
             }

@@ -4,7 +4,7 @@
 #include "listaCidades.h"
 #include "lista.h"
 
-void openGeo(listaCidade listacidade, char *nomeGeo);
+void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg);
 
 void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry);
 
