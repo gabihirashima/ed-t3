@@ -307,15 +307,17 @@ void delQuadras(listaCidade listacidade, FILE *txt, int htag, char *id, double r
         w = getWQuadra(q);
         h = getHQuadra(q);
         
+        Q = getNext(Q);
+        
         if(dist(qx,qy,x,y) <=r && dist(qx+w,qy,x,y) <=r && dist(qx,qy+h,x,y) <=r && dist(qx+w,qy+h,x,y) <= r){
             fprintf(txt, "\n%s", getCepQuadra(q));
-            removeElemento(ListQ,q);
             if(htag){
                 elemento = criaRetangulo(-1,w,h,qx,qy,10,10,"olive","beige",getSwQuadra(q));
                 insertElemento(getListaFormas(listacidade), elemento);
-            }   
+            }
+            removeElemento(ListQ,q); 
         }
-        Q = getNext(Q);
+        
     }
     a2 = criaCirculo(-1,8,x,y,"yellow","none","6.0px");
     insertElemento(getListaFormas(listacidade),a2);
@@ -342,12 +344,12 @@ void delUrb(listaCidade listacidade, FILE *txt, char *cid){
             y = getYObjetos(urb);
             strcpy(cstrk,getCorbObjetos(urb));
             strcpy(sw,getSwObjetos(urb));
-            removeElemento(listO,urb);
             fprintf(txt, "\nId: %s  X: %lf  Y: %lf  Cfill: %s  CStrk: %s  Sw: %s",cid,x,y,cfill,cstrk, sw);
             dell = criaLinha(-1,x,y,x,0,"black");
             insertElemento(getListaFormas(listacidade),dell);
             itxt = criaTexto(-1,x+2,0,"black","black",cid);
             insertElemento(getListaFormas(listacidade),itxt);
+            removeElemento(listO,urb);
         }
         else{
             urb = comparaCepQuadra(listacidade,cid);
@@ -358,12 +360,12 @@ void delUrb(listaCidade listacidade, FILE *txt, char *cid){
             strcpy(cfill,getCorpQuadra(urb));
             strcpy(cstrk,getCorbQuadra(urb));
             strcpy(sw,getSwQuadra(urb));
-            removeElemento(listQ,urb);
             fprintf(txt, "\nCep: %s  X: %lf  Y: %lf  W: %lf  H: %lf  Cfill: %s  CStrk:%s  Sw:%s",cid,x,y,w,h,cfill,cstrk, sw);
             dell = criaLinha(-1,x+w/2,y+h/2,x+w/2,0,"black");
             insertElemento(getListaFormas(listacidade),dell);
             itxt = criaTexto(-1,x+w/2+2,0,"black","black",cid);
             insertElemento(getListaFormas(listacidade),itxt);
+            removeElemento(listQ,urb);
         }
       
 }
@@ -436,8 +438,8 @@ void rectArea(listaCidade listacidade, FILE *txt, double x, double y, double w, 
             sprintf(areatxt,"Area: %lf m²",A);
             a = criaTexto(-1,qx+qw/2,qy+qh/2,"black","black",areatxt);
             insertElemento(getListaFormas(listacidade),a);
+            AT += A;
         }
-        AT += A;
         Q = getNext(Q);
     }
     fprintf(txt,"\nArea total: %lf m²",AT);
