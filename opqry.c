@@ -264,9 +264,9 @@ void delf(int j, listaCidade lista, FILE *saida){
 
     char f1;
 
-    f1 = getCharIdFormas(forma1);
 
     if(forma1 != NULL){ 
+        f1 = getCharIdFormas(forma1);
         if(f1 == 'c'){
             fprintf(saida, "%d: CIRCULO x:%lf y:%lf r:%lf corb:%s corp:%s\n", getIdFormas(forma1), getXFormas(forma1), getYFormas(forma1), getRFormas(forma1), getCorbFormas(forma1), getCorpFormas(forma1));
         }
@@ -276,7 +276,7 @@ void delf(int j, listaCidade lista, FILE *saida){
         else if(f1 == 't'){
             fprintf(saida, "%d: TEXTO x:%lf y:%lf corb:%s corp:%s texto:%s\n", getIdFormas(forma1), getXFormas(forma1), getYFormas(forma1), getCorbFormas(forma1), getCorpFormas(forma1), getTextFormas(forma1));     
         }
-        removeElemento(listaF, getElemento(forma1));
+        removeElemento(listaF, forma1);
     }
 }
 
@@ -343,6 +343,7 @@ void delUrb(listaCidade listacidade, FILE *txt, char *cid){
             x = getXObjetos(urb);
             y = getYObjetos(urb);
             strcpy(cstrk,getCorbObjetos(urb));
+            strcpy(cfill,getCorpObjetos(urb));
             strcpy(sw,getSwObjetos(urb));
             fprintf(txt, "\nId: %s  X: %lf  Y: %lf  Cfill: %s  CStrk: %s  Sw: %s",cid,x,y,cfill,cstrk, sw);
             dell = criaLinha(-1,x,y,x,0,"black");
@@ -400,18 +401,30 @@ void coord(listaCidade listacidade, FILE *txt, char *cid){
     switch(type){
         case 'r':
             urb = comparaIdObjetos(listacidade,cid);
+            if(urb==NULL){
+                break;
+            }
             fprintf(txt,"\nId: %s  X: %lf  Y: %lf  Rádio-base",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         case 's':
             urb = comparaIdObjetos(listacidade,cid);
+            if(urb==NULL){
+                break;
+            }
             fprintf(txt,"\nId: %s  X: %lf Y: %lf  Semáforo",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         case 'h':
             urb = comparaIdObjetos(listacidade,cid);
+            if(urb==NULL){
+                break;
+            }
             fprintf(txt,"\nId: %s  X: %lf Y: %lf Hidrante",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         default:
             urb = comparaCepQuadra(listacidade,cid);
+            if(urb==NULL){
+                break;
+            }
             fprintf(txt,"\nId: %s  X: %lf  Y: %lf Quadra",getCepQuadra(urb),getXQuadra(urb),getYQuadra(urb));
             break;
     }

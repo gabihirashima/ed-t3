@@ -94,7 +94,6 @@ void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg){
                 else if((strcmp(comando, "q") == 0) && cont_nq < nq){
                     fscanf(arq, "%s %lf %lf %lf %lf", cep, &x, &y ,&w ,&h);
                     elemento = criaQuadra(cep, x, y, w, h, cfillQ, cstrkQ, sw);
-                    printf("%s %lf %lf %lf %lf\n", getCepQuadra(elemento), getXQuadra(elemento), getYQuadra(elemento) ,getWQuadra(elemento) ,getHQuadra(elemento));
                     insertElemento(getListaQuadras(listacidade), elemento);
                     cont_nq += 1;
                 }
