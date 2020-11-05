@@ -11,6 +11,7 @@ typedef struct regiao{
     double w;  /*w da regiao*/
     double h; /*h da regiao*/
     double d; /*densidade de regiao por km*/
+    char categoria;
 }Regiao;
 
 listaRegiao criaRegiao(int id, double x, double y, double w, double h, double d){
@@ -21,7 +22,6 @@ listaRegiao criaRegiao(int id, double x, double y, double w, double h, double d)
     r->w = w; 
     r->h = h;
     r->d = d;
-
     return r;
 }
 
@@ -55,6 +55,14 @@ double getDRegiao(listaRegiao lista){
     return r->d;
 }
 
+char getCategoriaRegiao(listaRegiao lista){
+    Regiao *r = (Regiao*)lista;
+    return r->categoria;
+}
 
+void setCategoriaRegiao(listaRegiao lista, char categoria){
+    Regiao *r = (Regiao*)lista;
+    r->categoria = categoria;
+}
 
 

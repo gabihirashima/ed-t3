@@ -10,6 +10,7 @@
 #include "listaPostos.h"
 #include "criaSvg.h"
 #include "opqry.h"
+#include "opqry2.h"
 
 void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg){
     char comando[4];
@@ -159,7 +160,6 @@ void openGeo(listaCidade listacidade, char *nomeGeo, char *saidaSvg){
 }
 
 void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
-
   FILE *entrada, *saidaTxt;
 
     char comando[6];
@@ -286,6 +286,7 @@ void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
 
             else if(strcmp(comando, "cv") == 0){
                 fscanf(entrada, "%d %s %c %d", &n_casos, id, &face, &num);
+                casosCovid(listacidade, n_casos, id, face, num, saidaTxt);
             }
 
             else if(strcmp(comando, "soc") == 0){

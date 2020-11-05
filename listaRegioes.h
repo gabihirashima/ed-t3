@@ -17,4 +17,8 @@ double getHRegiao(listaRegiao lista);
 
 double getDRegiao(listaRegiao lista);
 
+char getCategoriaRegiao(listaRegiao lista);
+
+void setCategoriaRegiao(listaRegiao lista, char categoria);
+
 #endif

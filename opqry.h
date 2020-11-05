@@ -35,4 +35,5 @@ void coord(listaCidade listacidade, FILE *txt, char *cid);
 
 void rectArea(listaCidade listacidade, FILE *txt, double x, double y, double w, double h);
 
+
 #endif

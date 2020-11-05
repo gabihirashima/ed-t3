@@ -8,6 +8,7 @@
 #include "listaFormas.h"
 #include "listaPostos.h"
 #include "listaRegioes.h"
+#include "listaCasosCovid.h"
 
 typedef struct cidade{
     listaStruct listaF;
@@ -15,6 +16,7 @@ typedef struct cidade{
     listaStruct listaQ;
     listaStruct listaR;
     listaStruct listaP;
+    listaStruct listaC;
 }Cidade;
 
 listaCidade iniciaListaCidade(){
@@ -26,6 +28,7 @@ listaCidade iniciaListaCidade(){
     lista->listaO = criaLista();
     lista->listaR = criaLista();
     lista->listaP = criaLista();
+    lista->listaC = criaLista();
 
     return lista; 
 }
@@ -48,6 +51,11 @@ listaStruct getListaRegioes(listaCidade lista){
 listaStruct getListaPostos(listaCidade lista){
     Cidade* list = (Cidade*)lista;
     return list->listaP;
+}
+
+listaStruct getListaCasosCovid(listaCidade lista){
+    Cidade* list = (Cidade*)lista;
+    return list->listaC;
 }
 
 listaStruct getListaQuadras(listaCidade lista){

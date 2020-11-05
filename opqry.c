@@ -133,7 +133,7 @@ int sobrepoeRetanguloRetangulo(listaCidade listacidade, Node retangulo1, Node re
 void sobreposicao(int i, int k, listaCidade lista, FILE *txt){
     Node forma1, forma2; 
     int teste; 
-
+    
     forma1 = comparaIdFormas(lista, i);
     forma2 = comparaIdFormas(lista, k);
 
@@ -464,3 +464,4 @@ void rectArea(listaCidade listacidade, FILE *txt, double x, double y, double w, 
     at = criaTexto(-1,x+5,0,"black","black",atotaltxt);
     insertElemento(getListaFormas(listacidade),at);
 }
+

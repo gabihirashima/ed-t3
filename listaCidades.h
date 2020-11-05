@@ -17,6 +17,8 @@ listaStruct getListaRegioes(listaCidade lista);
 
 listaStruct getListaPostos(listaCidade lista);
 
+listaStruct getListaCasosCovid(listaCidade lista);
+
 Node comparaIdObjetos(listaCidade lista, char *id);
 
 Node comparaCepQuadra(listaCidade lista, char *id);
