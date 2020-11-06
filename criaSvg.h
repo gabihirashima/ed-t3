@@ -20,7 +20,13 @@ void desenhaRetanguloPontilhado(FILE *saida, double x, double y, double w, doubl
 
 void desenhaLinha(FILE *saida, double x1, double x2, double y1, double y2, char *corb);
 
+void desenhaLinhaTracejada(FILE *saida, double x1, double x2, double y1, double y2, char *corb);
+
 void desenhaCirculo(FILE *saida, double x, double y, double r, char *corp, char *corb, char *cw);
+
+void desenhaPostoSaude(FILE *saida, double x, double y);
+
+void desenhaCasoCovid(FILE *saida, double xQ, double yQ, double wQ, double hQ, int n, double xT, double yT);
 
 void svgen(listaCidade listacidade,char *out);
 

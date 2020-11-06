@@ -7,6 +7,8 @@
 #include "listaFormas.h"
 #include "listaObjUrbanos.h"
 #include "listaQuadras.h"
+#include "listaPostos.h"
+#include "listaCasosCovid.h"
 
 void desenhaSemaforo(FILE *saida, double x, double y, char *cfill, char *cstrk, char *sw){
     double w, h;
@@ -55,9 +57,38 @@ void desenhaLinha(FILE *saida, double x1, double x2, double y1, double y2, char 
       x1, y1, x2, y2, corb);
 }
 
+void desenhaLinhaTracejada(FILE *saida, double x1, double x2, double y1, double y2, char *corb){
+    fprintf(saida, "<line x1=\"%lf\" y1=\"%lf\" x2=\"%lf\" y2=\"%lf\" stroke=\"%s\" stroke-width=\"2.0px\" stroke-dasharray=\"4\"/>\n",
+      x1, y1, x2, y2, corb);
+}
+
 void desenhaCirculo(FILE *saida, double x, double y, double r, char *corp, char *corb, char *cw){
-    fprintf(saida, "<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\"  fill=\"%s\" stroke-width=\"%s\" />\n",
+    fprintf(saida, "<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" stroke=\"%s\"  fill=\"%s\" stroke-width=\"%s\"/>\n",
     x, y, r, corb, corp, cw);
+}
+
+void desenhaPostoSaude(FILE *saida, double x, double y){
+    double r;
+    r = 8;
+    fprintf(saida, "<circle cx=\"%lf\" cy=\"%lf\" r=\"%lf\" fill=\"%s\" stroke=\"%s\" stroke-width=\"%s\" />\n", 
+    x, y, r, "whitesmoke", "black", "1.0px");
+    fprintf(saida, "<text x=\"%lf\" y=\"%lf\" stroke=\"%s\" fill=\"%s\">%s</text>\n",
+     x-6, y+4, "black", "black", "PS");
+}
+
+void desenhaCasoCovid(FILE *saida, double xQ, double yQ, double wQ, double hQ, int n, double xT, double yT){
+    char string[10];
+    if(n == 0){
+     fprintf(saida, "<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height =\"%lf\" rx=\"%lf\" ry=\"%lf\" stroke=\"%s\" fill=\"%s\" stroke-width=\"%s\"/>\n",
+     xQ, yQ, wQ, hQ, 0.0, 0.0, "white", "blue", "1.0px");
+    }
+    else{
+     sprintf(string, "%d", n);
+     fprintf(saida, "<rect x=\"%lf\" y=\"%lf\" width=\"%lf\" height =\"%lf\" rx=\"%lf\" ry=\"%lf\" stroke=\"%s\" fill=\"%s\" stroke-width=\"%s\"/>\n",
+     xQ, yQ, wQ, hQ, 0.0, 0.0, "black", "orange", "1.0px");
+     fprintf(saida, "<text x=\"%lf\" y=\"%lf\" stroke=\"%s\" fill=\"%s\">%s</text>\n",
+     xT, yT, "white", "white", string);  
+    }
 }
 
 void svgen(listaCidade listacidade,char *out){
@@ -65,12 +96,16 @@ void svgen(listaCidade listacidade,char *out){
     Node listQ = getListaQuadras(listacidade);
     Node listO = getListaObjetos(listacidade);
     Node listF = getListaFormas(listacidade);
+    Node listP = getListaPostos(listacidade);
+    Node listC = getListaCasosCovid(listacidade);
 
     Node Q = getFirst(listQ);
     Node O = getFirst(listO);
     Node F = getFirst(listF);
+    Node P = getFirst(listP);
+    Node C = getFirst(listC);
 
-    tipo q, o, f;
+    tipo q, o, f, p, c;
 
     svg = fopen(out,"w");
 
@@ -104,22 +139,36 @@ void svgen(listaCidade listacidade,char *out){
         f = getElemento(F);
         char c = getCharIdFormas(f);
             if(c == 'c'){
-                desenhaCirculo(svg, getXFormas(f), getYFormas(f), getRFormas(f), getCorpFormas(f), getCorbFormas(f), getCWFormas(f));
+                desenhaCirculo(svg, getXFormas(f), getYFormas(f), getRFormas(f), getCorbFormas(f), getCorpFormas(f), getCWFormas(f));
             }
             else if(c == 'r'){
-                desenhaRetangulo(svg, getXFormas(f), getYFormas(f), getWFormas(f), getHFormas(f), getRxFormas(f), getRyFormas(f), getCorpFormas(f), getCorbFormas(f), getCWFormas(f));
+                desenhaRetangulo(svg, getXFormas(f), getYFormas(f), getWFormas(f), getHFormas(f), getRxFormas(f), getRyFormas(f), getCorbFormas(f), getCorpFormas(f), getCWFormas(f));
             }
             else if(c == 'x'){
-                desenhaRetanguloPontilhado(svg, getXFormas(f), getYFormas(f), getWFormas(f), getHFormas(f), getRxFormas(f), getRyFormas(f), getCorpFormas(f), getCorbFormas(f), getCWFormas(f));
+                desenhaRetanguloPontilhado(svg, getXFormas(f), getYFormas(f), getWFormas(f), getHFormas(f), getRxFormas(f), getRyFormas(f), getCorbFormas(f), getCorpFormas(f), getCWFormas(f));
             }
             else if(c == 'l'){
                 desenhaLinha(svg, getXFormas(f), getX2Formas(f), getYFormas(f), getY2Formas(f), getCorpFormas(f));
+            }
+            else if(c == 'a'){
+                desenhaLinhaTracejada(svg, getXFormas(f), getX2Formas(f), getYFormas(f), getY2Formas(f), getCorpFormas(f));
             }
             else if(c == 't'){
                 desenhaTexto(svg, getXFormas(f), getYFormas(f), getCorbFormas(f), getCorpFormas(f), getTextFormas(f));
             }
         F = getNext(F);
 
+    }
+    while(P!=NULL){
+        p = getElemento(P);
+        desenhaPostoSaude(svg, getXPosto(p), getYPosto(p));
+        P = getNext(P);
+    }
+
+    while(C!=NULL){
+        c = getElemento(C);
+        desenhaCasoCovid(svg, getXCasosCovid(c), getYCasosCovid(c), getWCasosCovid(c), getHCasosCovid(c), getNCasosCovid(c), getxTCasosCovid(c), getyTCasosCovid(c));
+        C = getNext(C);
     }
     fprintf(svg,"\n</svg>");
     fclose(svg);

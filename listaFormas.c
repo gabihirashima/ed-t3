@@ -9,6 +9,7 @@
     r = retangulo;
     x = retangulo pontilhado;
     l = linha;
+    a = linha tracejada;
     t = texto;
 */
 
@@ -85,6 +86,19 @@ listaForma criaLinha(int id, double x, double y, double x2, double y2, char *cor
     strcpy(l->corb, cor);
     strcpy(l->corp, cor);
     l->char_id = 'l';
+    return l;
+}
+
+listaForma criaLinhaTracejada(int id, double x, double y, double x2, double y2, char *cor){
+    Formas *l =(Formas*)malloc(sizeof(Formas));
+    l->id = id;
+    l->x = x;
+    l->y = y;
+    l->x2 = x2;
+    l->y2 = y2;
+    strcpy(l->corb, cor);
+    strcpy(l->corp, cor);
+    l->char_id = 'a';
     return l;
 }
 

@@ -25,4 +25,6 @@ Node comparaCepQuadra(listaCidade lista, char *id);
 
 Node comparaIdFormas(listaCidade lista, int id);
 
+Node comparaEnderecoCasosCovid(listaCidade lista, char *cep, char face, int num);
+
 #endif

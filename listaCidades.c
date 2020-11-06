@@ -104,3 +104,22 @@ Node comparaIdFormas(listaCidade lista, int id){
         }while(no != NULL);
     return NULL;
 }
+
+Node comparaEnderecoCasosCovid(listaCidade lista, char *cep, char face, int num){
+     listaStruct list = getListaCasosCovid(lista);
+
+    Node no = getFirst(list);
+    tipo elemento;
+         do{
+            elemento = getElemento(no);
+                if(strcmp(getCepCasosCovid(elemento), cep) == 0){
+                    if(getFaceCasosCovid(elemento) == face ){
+                        if(getNumCasosCovid(elemento) == num){
+                            return elemento;
+                        }
+                    }
+                }
+            no = getNext(no);
+        }while(no != NULL);
+    return NULL;
+}

@@ -291,6 +291,7 @@ void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
 
             else if(strcmp(comando, "soc") == 0){
                 fscanf(entrada, "%d %s %c %d", &n_postos, id, &face, &num);
+                socorro(listacidade, n_postos, id, face, num, saidaTxt);
             }
 
             else if(strcmp(comando, "ci") == 0){

@@ -5,6 +5,7 @@
 
 void casosCovid(listaCidade lista, int n, char *cep, char face, int num, FILE *saida);
 
+void socorro(listaCidade listacidade, int n_postos, char *cep, char face, int num, FILE *saida);
 
 
 #endif

@@ -11,6 +11,8 @@ listaForma criaRetanguloPontilhado(int id, double w, double h, double x, double 
 
 listaForma criaLinha(int id, double x, double y, double x2, double y2, char *cor);
 
+listaForma criaLinhaTracejada(int id, double x, double y, double x2, double y2, char *cor);
+
 listaForma criaTexto(int id, double x, double y, char *corb, char *corp, char *texto);
 
 int getIdFormas(listaForma lista);
