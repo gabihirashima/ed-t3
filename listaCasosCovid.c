@@ -20,6 +20,7 @@ listacasos criaCaso(int n_casos, double x, double y, double w, double h){
     c->y = y;
     c->w = w;
     c->h = h;
+    return c;
 }
 
 int getNCasosCovid(listacasos lista){

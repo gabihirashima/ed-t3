@@ -33,18 +33,6 @@ void casosCovid(listaCidade listacidade, int n, char *cep, char face, int num, F
         switch(face){
             case 'S':
                 nx = x + num;
-                ny = y + ((4*((y+h)-y))/5);
-                elemento = criaRetangulo(0, ((x+w)-x)/5, ((y+h)-y)/5, nx, ny, 0, 0, "black", "orange", "1.0px");
-                insertElemento(listaF, elemento);
-                elemento = criaTexto(0, nx + ((((x+w)-x)/5)/3), ny + ((((y+h)-y)/5)/1.8) , "white", "white", string);
-                insertElemento(listaF, elemento);
-                elemento = criaCaso(n, nx, ny, ((x+w)-x)/5, ((y+h)-y)/5);
-                insertElemento(listaC, elemento);
-                fprint(saida, "%d casos em %s\n", n, cep);
-            break;
-
-            case 'N':
-                nx = x + num;
                 ny = y;
                 elemento = criaRetangulo(0, ((x+w)-x)/5, ((y+h)-y)/5, nx, ny, 0, 0, "black", "orange", "1.0px");
                 insertElemento(listaF, elemento);
@@ -52,23 +40,22 @@ void casosCovid(listaCidade listacidade, int n, char *cep, char face, int num, F
                 insertElemento(listaF, elemento);
                 elemento = criaCaso(n, nx, ny, ((x+w)-x)/5, ((y+h)-y)/5);
                 insertElemento(listaC, elemento);
-                fprint(saida, "%d casos em %s\n", n, cep);
+                fprintf(saida, "%d casos em %s\n", n, cep);
             break;
 
-            case 'L':
-                nx = x + ((4*((x + w)-x))/5);
-                ny = y + num;
+            case 'N':
+                nx = x + num;
+                ny = y + ((4*((y+h)-y))/5);
                 elemento = criaRetangulo(0, ((x+w)-x)/5, ((y+h)-y)/5, nx, ny, 0, 0, "black", "orange", "1.0px");
                 insertElemento(listaF, elemento);
-                elemento = criaTexto(0, nx + ((((x+w)-x)/5)/3), ny + ((((y+h)-y)/5)/1.8), "white", "white", string);
+                elemento = criaTexto(0, nx + ((((x+w)-x)/5)/3), ny + ((((y+h)-y)/5)/1.8) , "white", "white", string);
                 insertElemento(listaF, elemento);
                 elemento = criaCaso(n, nx, ny, ((x+w)-x)/5, ((y+h)-y)/5);
                 insertElemento(listaC, elemento);
-                fprint(saida, "%d casos em %s\n", n, cep);
-
+                fprintf(saida, "%d casos em %s\n", n, cep);
             break;
 
-            case 'O':
+            case 'L':
                 nx = x;
                 ny = y + num;
                 elemento = criaRetangulo(0, ((x+w)-x)/5, ((y+h)-y)/5, nx, ny, 0, 0, "black", "orange", "1.0px");
@@ -77,7 +64,20 @@ void casosCovid(listaCidade listacidade, int n, char *cep, char face, int num, F
                 insertElemento(listaF, elemento);
                 elemento = criaCaso(n, nx, ny, ((x+w)-x)/5, ((y+h)-y)/5);
                 insertElemento(listaC, elemento);
-                fprint(saida, "%d casos em %s\n", n, cep);
+                fprintf(saida, "%d casos em %s\n", n, cep);
+
+            break;
+
+            case 'O':
+                nx = x + ((4*((x + w)-x))/5);
+                ny = y + num;
+                elemento = criaRetangulo(0, ((x+w)-x)/5, ((y+h)-y)/5, nx, ny, 0, 0, "black", "orange", "1.0px");
+                insertElemento(listaF, elemento);
+                elemento = criaTexto(0, nx + ((((x+w)-x)/5)/3), ny + ((((y+h)-y)/5)/1.8), "white", "white", string);
+                insertElemento(listaF, elemento);
+                elemento = criaCaso(n, nx, ny, ((x+w)-x)/5, ((y+h)-y)/5);
+                insertElemento(listaC, elemento);
+                fprintf(saida, "%d casos em %s\n", n, cep);
             break;
         }
     }

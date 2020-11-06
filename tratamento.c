@@ -88,6 +88,7 @@ void tratamentoString(char *diretorio, char *arquivoGeo, char *arquivoQry, char 
     liberaLista(getListaQuadras(Cidade));
     liberaLista(getListaPostos(Cidade));
     liberaLista(getListaRegioes(Cidade));
+    liberaLista(getListaCasosCovid(Cidade));
     free(Cidade);
 
 }
