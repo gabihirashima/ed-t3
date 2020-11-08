@@ -66,6 +66,32 @@ void casosCovid(listaCidade listacidade, int n, char *cep, char face, int num, F
     }
 }
 
+void shellsort(double distanciaPostos[], double postoX[], double postoY[], int n_postos){
+    int i, j, k;
+    double temp;
+        for(i = n_postos/2; i > 0; i = i/2){
+            for(j = i; j < n_postos; j++){
+                for(k = j - i; k >= 0; k = k - i){
+                    if(distanciaPostos[k+i] >= distanciaPostos[k])
+                        break;
+                    else{
+                        temp = distanciaPostos[k];
+                        distanciaPostos[k] = distanciaPostos[k+i];
+                        distanciaPostos[k+i] = temp;
+
+                        temp = postoX[k];
+                        postoX[k] = postoX[k+i];
+                        postoX[k+i] = temp;
+
+                        temp = postoY[k];
+                        postoY[k] = postoY[k+i];
+                        postoY[k+i] = temp;
+                    }
+                }
+             }
+        }
+}
+
 void socorro(listaCidade listacidade, int n_postos, char *cep, char face, int num, FILE *saida){
      Node listaC = getListaCasosCovid(listacidade);
      Node listaF = getListaFormas(listacidade);
@@ -135,7 +161,7 @@ void socorro(listaCidade listacidade, int n_postos, char *cep, char face, int nu
 
                 for(int i = 0; i < totalP; i++){
                     distanciaPosto[i] = dist(cx, cy, postoX[i], postoY[i]);
-                    printf("dist posto: %lf\n", distanciaPosto[i]);
+                    /*printf("dist posto: %lf\n", distanciaPosto[i]);*/
                 }
 
                 if(totalP == 1){
@@ -144,25 +170,8 @@ void socorro(listaCidade listacidade, int n_postos, char *cep, char face, int nu
                     fprintf(saida, "posto em x: %lf y: %lf\n", postoX[0], postoY[0]);
                 }
                 else{
-                    double aux;
-                    for(int i = 0; i < totalP-1; i++){
-                        for(int j = i; j < totalP - 1; j++){
-                            if(distanciaPosto[j+1] < distanciaPosto[i]){
-                                aux = distanciaPosto[i];
-                                distanciaPosto[i] = distanciaPosto[j+1];
-                                distanciaPosto[j+1] = aux;
-
-                                aux = postoX[i];
-                                postoX[i] = postoX[j+1];
-                                postoX[j+1] = aux;
-
-                                
-                                aux = postoY[i];
-                                postoY[i] = postoY[j+1];
-                                postoY[j+1] = aux;
-                            }
-                        }
-                    }
+                    shellsort(distanciaPosto, postoX, postoY, totalP);
+                }
 
                     for (int i = 0; i < totalP; i++){
                         if(i < n_postos){
@@ -171,12 +180,12 @@ void socorro(listaCidade listacidade, int n_postos, char *cep, char face, int nu
                         fprintf(saida, "posto em x: %lf y: %lf\n", postoX[i], postoY[i]);
                         }
                     }
-                }
-
             }
-        }
 
-}       
+        }
+}
+
+       
 
 void incidenciaRelativa(listaCidade lista, double cx, double cy, double r, FILE *saida){
     double x, y, x2, y2;

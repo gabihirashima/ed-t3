@@ -276,7 +276,7 @@ void delf(int j, listaCidade lista, FILE *saida){
         else if(f1 == 't'){
             fprintf(saida, "%d: TEXTO x:%lf y:%lf corb:%s corp:%s texto:%s\n", getIdFormas(forma1), getXFormas(forma1), getYFormas(forma1), getCorbFormas(forma1), getCorpFormas(forma1), getTextFormas(forma1));     
         }
-        removeElemento(listaF, forma1);
+        removeElemento(listaF, getElemento(forma1));
     }
 }
 
@@ -323,7 +323,7 @@ void delQuadras(listaCidade listacidade, FILE *txt, int htag, char *id, double r
     insertElemento(getListaFormas(listacidade),a2);
     a1 = criaCirculo(-1,8,x,y,"blue","none","4.0px");
     insertElemento(getListaFormas(listacidade),a1);
-    cq = criaCirculo(-1,r,x,y,"black","none","2.0px");
+    cq = criaCirculo(-1,r,x,y,"black","transparent","2.0px");
     insertElemento(getListaFormas(listacidade),cq);
     
     fprintf(txt, "\n%s %lf %lf %s %s %s", id, x, y, cfill, cstrk, sw);
