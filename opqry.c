@@ -258,26 +258,29 @@ void pnt(int j, char *novoCorb, char *novoCorp, listaCidade lista, FILE *saida){
 void delf(int j, listaCidade lista, FILE *saida){
 
     Node listaF = getListaFormas(lista);
-    Node forma1;
-    
-    forma1 = comparaIdFormas(lista, j);
+    Node F;
+    tipo f;
 
     char f1;
 
-
-    if(forma1 != NULL){ 
-        f1 = getCharIdFormas(forma1);
-        if(f1 == 'c'){
-            fprintf(saida, "%d: CIRCULO x:%lf y:%lf r:%lf corb:%s corp:%s\n", getIdFormas(forma1), getXFormas(forma1), getYFormas(forma1), getRFormas(forma1), getCorbFormas(forma1), getCorpFormas(forma1));
+    F = getFirst(listaF);
+        while(F != NULL){
+           if(getIdFormas(F) == j){ 
+                f = getElemento(F);   
+                f1 = getCharIdFormas(f);
+                if(f1 == 'c'){
+                    fprintf(saida, "%d: CIRCULO x:%lf y:%lf r:%lf corb:%s corp:%s\n", getIdFormas(f), getXFormas(f), getYFormas(f), getRFormas(f), getCorbFormas(f), getCorpFormas(f));
+                }
+                else if(f1 == 'r'){
+                    fprintf(saida, "%d: RETANGULO x:%lf y:%lf w:%lf h:%lf corb:%s corp:%s\n", getIdFormas(f), getXFormas(f), getYFormas(f), getWFormas(f), getHFormas(f), getCorbFormas(f), getCorpFormas(f));     
+                }
+                else if(f1 == 't'){
+                    fprintf(saida, "%d: TEXTO x:%lf y:%lf corb:%s corp:%s texto:%s\n", getIdFormas(f), getXFormas(f), getYFormas(f), getCorbFormas(f), getCorpFormas(f), getTextFormas(f));     
+                }
+            removeElemento(listaF, f);
+            }
+            F = getNext(F);
         }
-        else if(f1 == 'r'){
-            fprintf(saida, "%d: RETANGULO x:%lf y:%lf w:%lf h:%lf corb:%s corp:%s\n", getIdFormas(forma1), getXFormas(forma1), getYFormas(forma1), getWFormas(forma1), getHFormas(forma1), getCorbFormas(forma1), getCorpFormas(forma1));     
-        }
-        else if(f1 == 't'){
-            fprintf(saida, "%d: TEXTO x:%lf y:%lf corb:%s corp:%s texto:%s\n", getIdFormas(forma1), getXFormas(forma1), getYFormas(forma1), getCorbFormas(forma1), getCorpFormas(forma1), getTextFormas(forma1));     
-        }
-        removeElemento(listaF, getElemento(forma1));
-    }
 }
 
 double dist(double x1, double y1, double x2, double y2){
@@ -300,34 +303,35 @@ void delQuadras(listaCidade listacidade, FILE *txt, int htag, char *id, double r
 
     Q = getFirst(ListQ);
 
-    while(Q!=NULL){
-        q = getElemento(Q);
-        qx = getXQuadra(q);
-        qy = getYQuadra(q);
-        w = getWQuadra(q);
-        h = getHQuadra(q);
-        
-        Q = getNext(Q);
-        
-        if(dist(qx,qy,x,y) <=r && dist(qx+w,qy,x,y) <=r && dist(qx,qy+h,x,y) <=r && dist(qx+w,qy+h,x,y) <= r){
-            fprintf(txt, "\n%s", getCepQuadra(q));
-            if(htag){
-                elemento = criaRetangulo(-1,w,h,qx,qy,10,10,"olive","beige",getSwQuadra(q));
-                insertElemento(getListaFormas(listacidade), elemento);
+    if(Q != NULL){
+        while(Q!=NULL){
+            q = getElemento(Q);
+            qx = getXQuadra(q);
+            qy = getYQuadra(q);
+            w = getWQuadra(q);
+            h = getHQuadra(q);
+            
+            Q = getNext(Q);
+            
+            if(dist(qx,qy,x,y) <=r && dist(qx+w,qy,x,y) <=r && dist(qx,qy+h,x,y) <=r && dist(qx+w,qy+h,x,y) <= r){
+                fprintf(txt, "\n%s", getCepQuadra(q));
+                if(htag){
+                    elemento = criaRetangulo(-1,w,h,qx,qy,10,10,"olive","beige",getSwQuadra(q));
+                    insertElemento(getListaFormas(listacidade), elemento);
+                }
+                removeElemento(ListQ,q); 
             }
-            removeElemento(ListQ,q); 
+            
         }
+        a2 = criaCirculo(-1,8,x,y,"yellow","none","6.0px");
+        insertElemento(getListaFormas(listacidade),a2);
+        a1 = criaCirculo(-1,8,x,y,"blue","none","4.0px");
+        insertElemento(getListaFormas(listacidade),a1);
+        cq = criaCirculo(-1,r,x,y,"black","transparent","2.0px");
+        insertElemento(getListaFormas(listacidade),cq);
         
+        fprintf(txt, "\n%s %lf %lf %s %s %s", id, x, y, cfill, cstrk, sw);
     }
-    a2 = criaCirculo(-1,8,x,y,"yellow","none","6.0px");
-    insertElemento(getListaFormas(listacidade),a2);
-    a1 = criaCirculo(-1,8,x,y,"blue","none","4.0px");
-    insertElemento(getListaFormas(listacidade),a1);
-    cq = criaCirculo(-1,r,x,y,"black","transparent","2.0px");
-    insertElemento(getListaFormas(listacidade),cq);
-    
-    fprintf(txt, "\n%s %lf %lf %s %s %s", id, x, y, cfill, cstrk, sw);
-
 }
 
 void delUrb(listaCidade listacidade, FILE *txt, char *cid){
@@ -335,39 +339,60 @@ void delUrb(listaCidade listacidade, FILE *txt, char *cid){
     double x, y, w, h;
     Node listQ = getListaQuadras(listacidade);
     Node listO = getListaObjetos(listacidade);
+    Node Q, O;
+    tipo q, o;
     Node urb;
     tipo dell,itxt;
 
+    if(listQ == NULL || listO == NULL){
+        
+    }
+    else{
         if (type == 'r' || type == 's' || type == 'h'){
-            urb = comparaIdObjetos(listacidade,cid);
-            x = getXObjetos(urb);
-            y = getYObjetos(urb);
-            strcpy(cstrk,getCorbObjetos(urb));
-            strcpy(cfill,getCorpObjetos(urb));
-            strcpy(sw,getSwObjetos(urb));
-            fprintf(txt, "\nId: %s  X: %lf  Y: %lf  Cfill: %s  CStrk: %s  Sw: %s",cid,x,y,cfill,cstrk, sw);
-            dell = criaLinha(-1,x,y,x,0,"black");
-            insertElemento(getListaFormas(listacidade),dell);
-            itxt = criaTexto(-1,x+2,0,"black","black",cid);
-            insertElemento(getListaFormas(listacidade),itxt);
-            removeElemento(listO,urb);
+            O = getFirst(listO);
+            while(O != NULL){
+                if(strcmp(getIdObjetos(O), cid) == 0){
+                    o = getElemento(O);
+                    x = getXObjetos(o);
+                    y = getYObjetos(o);
+                    strcpy(cstrk,getCorbObjetos(o));
+                    strcpy(cfill,getCorpObjetos(o));
+                    strcpy(sw,getSwObjetos(o));
+                    fprintf(txt, "\nId: %s  X: %lf  Y: %lf  Cfill: %s  CStrk: %s  Sw: %s",cid,x,y,cfill,cstrk, sw);
+                    dell = criaLinha(-1,x,y,x,0,"black");
+                    insertElemento(getListaFormas(listacidade),dell);
+                    itxt = criaTexto(-1,x+2,0,"black","black",cid);
+                    insertElemento(getListaFormas(listacidade),itxt);
+                    removeElemento(listO,urb);
+                }
+                O = getNext(O);
+            }
+          
         }
         else{
-            urb = comparaCepQuadra(listacidade,cid);
-            x = getXQuadra(urb);
-            y = getYQuadra(urb);
-            w = getWQuadra(urb);
-            h = getHQuadra(urb);
-            strcpy(cfill,getCorpQuadra(urb));
-            strcpy(cstrk,getCorbQuadra(urb));
-            strcpy(sw,getSwQuadra(urb));
-            fprintf(txt, "\nCep: %s  X: %lf  Y: %lf  W: %lf  H: %lf  Cfill: %s  CStrk:%s  Sw:%s",cid,x,y,w,h,cfill,cstrk, sw);
-            dell = criaLinha(-1,x+w/2,y+h/2,x+w/2,0,"black");
-            insertElemento(getListaFormas(listacidade),dell);
-            itxt = criaTexto(-1,x+w/2+2,0,"black","black",cid);
-            insertElemento(getListaFormas(listacidade),itxt);
-            removeElemento(listQ,urb);
+            Q = getFirst(listQ);
+            while(Q != NULL){
+                if(strcmp(getCepQuadra(Q), cid) == 0){
+                    q = getElemento(Q);
+                    x = getXQuadra(q);
+                    y = getYQuadra(q);
+                    w = getWQuadra(q);
+                    h = getHQuadra(q);
+                    strcpy(cfill,getCorpQuadra(q));
+                    strcpy(cstrk,getCorbQuadra(q));
+                    strcpy(sw,getSwQuadra(q));
+                    fprintf(txt, "\nCep: %s  X: %lf  Y: %lf  W: %lf  H: %lf  Cfill: %s  CStrk:%s  Sw:%s",cid,x,y,w,h,cfill,cstrk, sw);
+                    dell = criaLinha(-1,x+w/2,y+h/2,x+w/2,0,"black");
+                    insertElemento(getListaFormas(listacidade),dell);
+                    itxt = criaTexto(-1,x+w/2+2,0,"black","black",cid);
+                    insertElemento(getListaFormas(listacidade),itxt);
+                    removeElemento(listQ,q);
+                }
+                Q = getNext(Q);
+            }           
         }
+
+    }
       
 }
 
@@ -401,31 +426,27 @@ void coord(listaCidade listacidade, FILE *txt, char *cid){
     switch(type){
         case 'r':
             urb = comparaIdObjetos(listacidade,cid);
-            if(urb==NULL){
-                break;
-            }
+            if(urb!=NULL){
             fprintf(txt,"\nId: %s  X: %lf  Y: %lf  Rádio-base",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
+            }
             break;
         case 's':
             urb = comparaIdObjetos(listacidade,cid);
-            if(urb==NULL){
-                break;
+            if(urb!=NULL){
+                fprintf(txt,"\nId: %s  X: %lf Y: %lf  Semáforo",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             }
-            fprintf(txt,"\nId: %s  X: %lf Y: %lf  Semáforo",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         case 'h':
             urb = comparaIdObjetos(listacidade,cid);
-            if(urb==NULL){
-                break;
+            if(urb!=NULL){
+                fprintf(txt,"\nId: %s  X: %lf Y: %lf Hidrante",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             }
-            fprintf(txt,"\nId: %s  X: %lf Y: %lf Hidrante",getIdObjetos(urb),getXObjetos(urb),getYObjetos(urb));
             break;
         default:
             urb = comparaCepQuadra(listacidade,cid);
-            if(urb==NULL){
-                break;
+            if(urb!=NULL){
+                fprintf(txt,"\nId: %s  X: %lf  Y: %lf Quadra",getCepQuadra(urb),getXQuadra(urb),getYQuadra(urb));
             }
-            fprintf(txt,"\nId: %s  X: %lf  Y: %lf Quadra",getCepQuadra(urb),getXQuadra(urb),getYQuadra(urb));
             break;
     }
 }

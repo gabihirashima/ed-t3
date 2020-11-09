@@ -200,11 +200,10 @@ void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
             exit(1);
     }
 
-     while(fscanf(entrada, "%s", comando)!=EOF){
+        while(fscanf(entrada, "%s", comando)!=EOF){
 
             if(strcmp(comando, "dq") == 0){
                 fscanf(entrada, "%s", teste);
-
                     if(strcmp(teste, "#") == 0){
                         fscanf(entrada, "%s %lf", id, &r);
                         delQuadras(listacidade, saidaTxt, 1, id, r);
@@ -215,7 +214,6 @@ void openQry(listaCidade listacidade, char *entradaQry, char *saidaQry){
                         delQuadras(listacidade, saidaTxt, 0, id, r);
                     }
             }
-
             else if(strcmp(comando, "del") == 0){
                 fscanf(entrada, "%s", id);
                 delUrb(listacidade, saidaTxt, id);

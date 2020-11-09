@@ -112,7 +112,7 @@ listaStruct insertAfter(listaStruct lista, tipo elemento, tipo elemento_2){
     return NULL;
 }
 
-listaStruct removeElemento(listaStruct l, tipo elemento){
+void removeElemento(listaStruct l, Node elemento){
    Lista* lista = (Lista*) l;
     No *aux, *aux2;
     aux = lista->primeiro;
@@ -141,7 +141,6 @@ listaStruct removeElemento(listaStruct l, tipo elemento){
          }
         aux = aux->prox;
     }
-    return lista;  
 }
 
 void liberaLista(listaStruct lista){

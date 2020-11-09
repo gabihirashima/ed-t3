@@ -23,7 +23,7 @@ listaStruct insertBefore(listaStruct lista, tipo elemento, tipo elemento_2);
 listaStruct insertAfter(listaStruct lista, tipo elemento, tipo elemento_2);
 
 /*remove elemento da lista encadeada*/
-listaStruct removeElemento(listaStruct lista, tipo elemento);
+void removeElemento(listaStruct lista, Node elemento);
 
 /*libera lista encadeada*/
 void liberaLista(listaStruct lista);
@@ -45,5 +45,8 @@ tipo getElemento(Node elemento);
 
 /*retorna o tamanho da lista*/
 int tamanhoLista(listaStruct lista);
+
+/*imprime lista*/
+void imprimeLista(listaStruct l, char c);
 
 #endif
